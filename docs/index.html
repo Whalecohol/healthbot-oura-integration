@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Provisional public overview of HealthBot Personal Oura Integration. The personal Oura connection is not enabled.">
+  <meta name="color-scheme" content="light dark">
+  <title>HealthBot Personal Oura Integration</title>
+  <link rel="stylesheet" href="site.css">
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <header class="wrap">
+    <a class="site-name" href="./">HealthBot Personal Oura Integration</a>
+    <nav aria-label="Pages">
+      <ul class="nav-list">
+        <li><a href="./" aria-current="page">Overview</a></li>
+        <li><a href="privacy/">Privacy draft</a></li>
+        <li><a href="terms/">Terms draft</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main id="content" class="wrap" tabindex="-1">
+    <h1>HealthBot Personal Oura Integration</h1>
+    <div class="banner" role="note">
+      <p><strong>Not enabled.</strong> Provisional draft, dated <time datetime="2026-11-08">8 November 2026</time> (2026-11-08). The owner has not adopted this text.</p>
+      <p>The date is a drafting date. It is the record of when this explanation was written, before activation.</p>
+    </div>
+    <p>This page describes a planned personal experiment: a single-user connection between the owner's Oura account and the owner's AI assistant, HealthBot. The intended path uses Oura's official OAuth and a community open-source MCP server. The integration is not enabled.</p>
+
+    <h2>How to read this page</h2>
+    <p>The text is provisional. It was drafted on <time datetime="2026-11-08">8 November 2026</time> (2026-11-08). The owner has not adopted this text as a privacy policy, as terms of service, or as a description of a running service. Publishing the draft leaves the integration disabled.</p>
+    <p>Several facts that a running integration would need are still open. Exact OAuth scopes, the data and model providers, any other recipients, token and data storage, retention and deletion, and an operator contact are unconfirmed.</p>
+    <p>These pages do not submit an Oura application, do not grant health-data authorization, and do not accept Oura's API agreement.</p>
+
+    <h2>Intended purpose</h2>
+    <p>The integration is intended for one person, the owner, for personal and non-commercial use. It is a single-user experiment. The intended purpose is to let the owner ask HealthBot about the owner's own Oura information.</p>
+    <p>HealthBot Personal Oura Integration is not affiliated with or endorsed by Oura Health Oy. It is a separate personal project.</p>
+    <p>The intended integration is not a medical device and would not give medical advice. This draft claims no medical, security, or compliance certification.</p>
+
+    <h2>Intended setup</h2>
+    <p>The planned host is a shared hosted computer used by the owner's AI assistants. That computer is separate from the owner's physical machine. The intended design would place tokens and retrieved Oura information on that shared host.</p>
+    <p>The software intended to run there is the community open-source .NET MCP server <a href="https://github.com/gjlumsden/oura-mcp">gjlumsden/oura-mcp</a>. MCP means Model Context Protocol, a way for an assistant to call tools on a server. This repository publishes these explanatory pages only. It does not include that server, OAuth code, API credentials, or a connection to Oura.</p>
+    <p>The intended connection is the owner's own Oura account through Oura's official OAuth. The design uses that official OAuth path directly, with no other health platform added between the owner and Oura.</p>
+
+    <h2>Intended data path</h2>
+    <p>The steps below describe the design the owner would still have to turn on. They do not describe activity this website performs.</p>
+    <ol class="steps">
+      <li>The owner approves access on Oura's site through Oura's official OAuth.</li>
+      <li>The MCP server on the shared hosted computer receives access tokens and requests the owner's Oura data in the scopes the owner approved. The exact scopes are unconfirmed.</li>
+      <li>HealthBot calls the server's tools. Oura information returned to HealthBot becomes part of the assistant's conversation. That information may be sent through HealthBot to the AI service providers that process the conversation. Which providers those are is unconfirmed.</li>
+    </ol>
+
+    <h2>What remains unconfirmed</h2>
+    <dl class="facts">
+      <div>
+        <dt>Exact OAuth scopes</dt>
+        <dd>Unconfirmed. This draft does not name the scopes that would be requested. Categories Oura can offer, such as sleep, activity, readiness, or heart rate, are examples of available data types, and they are not a chosen scope list.</dd>
+      </div>
+      <div>
+        <dt>Data and model providers</dt>
+        <dd>Unconfirmed. The names of the AI service providers, and the terms that would apply to information sent to them, are not settled here.</dd>
+      </div>
+      <div>
+        <dt>Other recipients</dt>
+        <dd>Unconfirmed. The intended path already includes a possible send through HealthBot to its AI service providers. Any recipient beyond that path is unconfirmed.</dd>
+      </div>
+      <div>
+        <dt>Token and data storage</dt>
+        <dd>Unconfirmed. Whether the server would store tokens or Oura data on the hosted computer, and where, is unconfirmed.</dd>
+      </div>
+      <div>
+        <dt>Retention and deletion</dt>
+        <dd>Unconfirmed. How long tokens, Oura data, or conversation logs would be kept, and how deletion would work, is unconfirmed.</dd>
+      </div>
+      <div>
+        <dt>Operator contact</dt>
+        <dd>Unconfirmed. No contact method is stated, because none has been confirmed.</dd>
+      </div>
+    </dl>
+    <p>This draft sets no rule against sharing, selling, or advertising, and it describes no control that would prevent them.</p>
+
+    <h2>Privacy draft and terms draft</h2>
+    <p>Two companion drafts use the same date and the same limits. Read the <a href="privacy/">privacy draft</a> and the <a href="terms/">terms draft</a>. The owner has not adopted either page.</p>
+  </main>
+  <footer class="wrap">
+    <nav aria-label="Footer">
+      <ul class="nav-list">
+        <li><a href="./" aria-current="page">Overview</a></li>
+        <li><a href="privacy/">Privacy draft</a></li>
+        <li><a href="terms/">Terms draft</a></li>
+      </ul>
+    </nav>
+    <p>Drafted <time datetime="2026-11-08">8 November 2026</time> (2026-11-08). Drafting date only. The owner has not adopted this text.</p>
+    <p>HealthBot Personal Oura Integration is not affiliated with or endorsed by Oura Health Oy.</p>
+  </footer>
+</body>
+</html>
