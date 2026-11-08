@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check the provisional static site for structure, links, and wording limits."""
+"""Check the static site for structure, links, and documentation wording limits."""
 
 from __future__ import annotations
 
@@ -13,60 +13,80 @@ DOCS = ROOT / "docs"
 
 EXPECTED_HTML = {
     DOCS / "index.html": {
-        "title": "HealthBot Personal Oura Integration",
+        "title": "HealthBot Personal Health Connector",
         "nav_current": "Overview",
         "phrases": [
-            "single-user",
-            "non-commercial",
-            "official OAuth",
-            "shared hosted computer",
-            "HealthBot",
-            "gjlumsden/oura-mcp",
-            "Exact OAuth scopes",
-            "AI service providers",
-            "may be sent through HealthBot",
+            "127.0.0.1:8742",
+            "fixed65ceeb07",
+            "basic test of that forward",
+            "not a way to write health data",
+            "qualified clinician",
+            "Other accounts on the machine may be able to enter those directories.",
         ],
     },
     DOCS / "privacy" / "index.html": {
-        "title": "Privacy draft | HealthBot Personal Oura Integration",
-        "nav_current": "Privacy draft",
+        "title": "Privacy | HealthBot Personal Health Connector",
+        "nav_current": "Privacy",
         "phrases": [
-            "not an adopted privacy policy",
-            "access tokens and refresh tokens",
-            "AI service providers",
-            "exact scopes are unconfirmed",
-            "Deletion is unconfirmed",
-            "operator contact method is unconfirmed",
-            "sharing, selling, or advertising",
-            "conversation logs",
+            "not memory-only",
+            "XML encryptor",
+            "Key-ring contents were not inspected.",
+            "same user id",
+            "not private to the owning user",
+            "release location is writable",
+            "one-step deletion",
+            "memory cache",
+            "fixed65ceeb07",
+            "No single period is confirmed",
+            "Other accounts on the machine may be able to enter those directories.",
         ],
     },
     DOCS / "terms" / "index.html": {
-        "title": "Terms draft | HealthBot Personal Oura Integration",
-        "nav_current": "Terms draft",
+        "title": "Terms | HealthBot Personal Health Connector",
+        "nav_current": "Terms",
         "phrases": [
-            "not a contract",
-            "non-commercial",
-            "not a medical device",
-            "medical advice",
-            "as is",
-            "API agreement",
-            "revoke OAuth access",
-            "operator contact method is unconfirmed",
-            "shared hosted computer",
+            "not a contract with other people",
+            "qualified clinician",
+            "does not promise that data are accurate",
+            "fixed65ceeb07",
+            "same user id",
+            "not a way to write health data",
         ],
     },
 }
 
 REQUIRED_EVERY_PAGE = [
-    "Not enabled.",
+    "Not activated.",
+    "The connector is not enabled.",
     "2026-11-08",
-    "The owner has not adopted this text.",
-    "unconfirmed",
-    "is not affiliated with or endorsed by Oura Health Oy",
+    "Documentation version",
+    "The owner has adopted this documentation.",
+    "OAuth has not been performed.",
+    "ev.hobo@gmail.com",
+    "not affiliated with or endorsed by Oura Health Oy",
     "Skip to content",
-    "Provisional draft",
-    "drafting date",
+    "Security isolation is pending and has not been verified.",
+    "not a compliance warranty",
+    "do not promise zero retention",
+    "may enter chat",
+    "HealthBot Personal Health Connector",
+    "does not waive",
+    "Encryption at rest is not assured.",
+    "not a medical device",
+    "single-user",
+    "owner's own server",
+    "Local logout deletes the connector's local token and clears the connector's cache.",
+    "does not revoke authorization at Oura",
+    "35 implemented GET routes",
+    "113 mock tests",
+    "36 tools",
+    "11 scopes",
+    "Ring Configuration, Stress, and Heart Health",
+    "email, personal, daily, heartrate, workout, tag, session, and spo2",
+    "An unrelated development application may already exist",
+    "limited tested metadata",
+    "do not prove a production deployment or a live scope",
+    "Whether those 35 routes match every public production route is unverified.",
 ]
 
 FORBIDDEN = [
@@ -86,8 +106,11 @@ FORBIDDEN = [
     "ccpa",
     "iso 27001",
     "soc 2",
-    "encrypted",
-    "encryption",
+    "is encrypted",
+    "are encrypted",
+    "fully encrypted",
+    "we encrypt",
+    "encrypted at rest",
     "bank-grade",
     "military-grade",
     "guarantee",
@@ -121,11 +144,37 @@ FORBIDDEN = [
     "mixpanel",
     "plausible",
     "sentry",
+    "not adopted",
+    "provisional draft",
+    "drafting date",
+    "personal oura",
+    "healthbot oura",
+    "oura connector",
+    "gjlumsden",
+    "oura-mcp",
+    "grok-admin",
+    "/home/",
+    "0775",
+    "0600",
+    "0700",
+    "zero-retention",
+    "fully compliant",
+    "we are compliant",
+    "officially approved",
+    "oura-approved",
+    "isolation has been verified",
+    "isolation is complete",
+    "connector is enabled",
+    "integration is enabled",
+    "connector is ready",
+    "integration is ready",
+    "we guarantee",
+    "healthbot-oura-connector",
 ]
 
-ALLOWED_EXTERNAL = {
-    "https://github.com/gjlumsden/oura-mcp",
-}
+ALLOWED_EMAILS = {"ev.hobo@gmail.com"}
+
+ALLOWED_EXTERNAL: set[str] = set()
 
 EMAIL_RE = re.compile(r"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}")
 URL_RE = re.compile(r"https?://[^\s\"')>]+")
@@ -344,6 +393,8 @@ def main() -> int:
         title = " ".join(part.strip() for part in parser.title_parts if part.strip())
         if title != spec["title"]:
             fail(f"{page.relative_to(ROOT)} title is {title!r}")
+        if "oura" in title.lower():
+            fail(f"{page.relative_to(ROOT)} title contains an Oura product name")
         if "content" not in parser.ids:
             fail(f"{page.relative_to(ROOT)} is missing main id=content")
         if parser.skip_href != "#content":
@@ -360,9 +411,9 @@ def main() -> int:
         for phrase in FORBIDDEN:
             if phrase in lowered:
                 fail(f"{page.relative_to(ROOT)} contains forbidden wording {phrase!r}")
-        email = EMAIL_RE.search(text)
-        if email:
-            fail(f"{page.relative_to(ROOT)} contains an email address")
+        emails = set(EMAIL_RE.findall(text))
+        if emails != ALLOWED_EMAILS:
+            fail(f"{page.relative_to(ROOT)} emails are {sorted(emails)!r}")
         for tag in FORBIDDEN_TAGS:
             if tag in parser.tags:
                 fail(f"{page.relative_to(ROOT)} contains <{tag}>")
@@ -419,7 +470,7 @@ def main() -> int:
         for item in failures:
             print(f"- {item}")
         return 1
-    print(f"Checked {len(html_files)} pages, stylesheet, links, contrast, and provisional wording.")
+    print(f"Checked {len(html_files)} pages, stylesheet, links, contrast, and documentation wording.")
     return 0
 
 
