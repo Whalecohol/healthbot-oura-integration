@@ -3,96 +3,82 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Provisional public overview of HealthBot Personal Oura Integration. The personal Oura connection is not enabled.">
+  <meta name="description" content="Adopted documentation, version 2026-11-08, for HealthBot Personal Health Connector. The connector is not activated. OAuth has not been performed.">
   <meta name="color-scheme" content="light dark">
-  <title>HealthBot Personal Oura Integration</title>
+  <title>HealthBot Personal Health Connector</title>
   <link rel="stylesheet" href="site.css">
 </head>
 <body>
   <a class="skip" href="#content">Skip to content</a>
   <header class="wrap">
-    <a class="site-name" href="./">HealthBot Personal Oura Integration</a>
+    <a class="site-name" href="./">HealthBot Personal Health Connector</a>
     <nav aria-label="Pages">
       <ul class="nav-list">
         <li><a href="./" aria-current="page">Overview</a></li>
-        <li><a href="privacy/">Privacy draft</a></li>
-        <li><a href="terms/">Terms draft</a></li>
+        <li><a href="privacy/">Privacy</a></li>
+        <li><a href="terms/">Terms</a></li>
       </ul>
     </nav>
   </header>
   <main id="content" class="wrap" tabindex="-1">
-    <h1>HealthBot Personal Oura Integration</h1>
+    <h1>HealthBot Personal Health Connector</h1>
     <div class="banner" role="note">
-      <p><strong>Not enabled.</strong> Provisional draft, dated <time datetime="2026-11-08">8 November 2026</time> (2026-11-08). The owner has not adopted this text.</p>
-      <p>The date is a drafting date. It is the record of when this explanation was written, before activation.</p>
+      <p><strong>Not activated.</strong> Documentation version <time datetime="2026-11-08">8 November 2026</time> (2026-11-08). The owner has adopted this documentation. OAuth has not been performed. The connector is not enabled.</p>
+      <p>Adoption records this description for publication. It does not activate the connector, perform OAuth, or accept another party's terms. The owner's consent does not waive another party's terms. Platform obligations and the technical and legal conditions for use remain unresolved. These pages are not a compliance warranty.</p>
+      <p>Security isolation is pending and has not been verified. Health data that the connector reads is intended to transit over SSH to Grok Bot / HealthBot and may enter chat. These pages do not promise zero retention or any limit on training use. Encryption at rest is not assured.</p>
     </div>
-    <p>This page describes a planned personal experiment: a single-user connection between the owner's Oura account and the owner's AI assistant, HealthBot. The intended path uses Oura's official OAuth and a community open-source MCP server. The integration is not enabled.</p>
+    <p>HealthBot Personal Health Connector is a personal, single-user connector for the owner. It is intended to take Oura data, within an authorization the owner would still have to give, and to make that data available to Grok Bot / HealthBot when the owner asks to view, summarize, or analyze it.</p>
+    <p>The project is not an official Oura product. HealthBot Personal Health Connector is not affiliated with or endorsed by Oura Health Oy. These pages do not speak for Oura or for Grok Bot, and they are not an endorsement or an approval. The project does not offer public registration or a hosted connection for other people. This website is static text. It does not run the connector.</p>
 
-    <h2>How to read this page</h2>
-    <p>The text is provisional. It was drafted on <time datetime="2026-11-08">8 November 2026</time> (2026-11-08). The owner has not adopted this text as a privacy policy, as terms of service, or as a description of a running service. Publishing the draft leaves the integration disabled.</p>
-    <p>Several facts that a running integration would need are still open. Exact OAuth scopes, the data and model providers, any other recipients, token and data storage, retention and deletion, and an operator contact are unconfirmed.</p>
-    <p>These pages do not submit an Oura application, do not grant health-data authorization, and do not accept Oura's API agreement.</p>
+    <h2>What a later read could include</h2>
+    <p>If the owner later activates the connector and completes OAuth, a read could include identity and email, sleep, activity, readiness, heart rate, workouts, sessions, tags, and blood oxygen, when the grant, the device, the subscription, the API, and the account records allow it. Stress and recovery, cardiovascular information, fitness, and device information could be read only when the API provides them under those same conditions. Naming a category does not mean it is granted or that a route will return it.</p>
+    <p>No live grant has been made. A planning list named eight scopes: email, personal, daily, heartrate, workout, tag, session, and spo2. That list is not a live grant. A developer interface reportedly lists 11 scopes, including Ring Configuration, Stress, and Heart Health. The scopes that would be requested at activation are unverified. Neither list establishes that every data category is authorized or available. Exact live grants and routes are unverified.</p>
+    <p>The evidence recorded for this version is that implementation revision fixed65ceeb07 has 35 implemented GET routes, 113 mock tests, and a credential-free handshake covering 36 tools. Those are limited tested metadata. They do not prove a production deployment or a live scope. Whether those 35 routes match every public production route is unverified. They are not all of the data a person can see in the consumer app. The connector is not a way to write health data. Webhook management and sandbox use are outside the health-read description on these pages. A connection-status check is not an extra health-data permission.</p>
+    <p>Results can be missing, delayed, or wrong, and analysis can be wrong. The connector is not a medical device and does not provide a diagnosis, a treatment decision, or emergency care. For illness or an emergency, contact a qualified clinician or local emergency services.</p>
 
-    <h2>Intended purpose</h2>
-    <p>The integration is intended for one person, the owner, for personal and non-commercial use. It is a single-user experiment. The intended purpose is to let the owner ask HealthBot about the owner's own Oura information.</p>
-    <p>HealthBot Personal Oura Integration is not affiliated with or endorsed by Oura Health Oy. It is a separate personal project.</p>
-    <p>The intended integration is not a medical device and would not give medical advice. This draft claims no medical, security, or compliance certification.</p>
-
-    <h2>Intended setup</h2>
-    <p>The planned host is a shared hosted computer used by the owner's AI assistants. That computer is separate from the owner's physical machine. The intended design would place tokens and retrieved Oura information on that shared host.</p>
-    <p>The software intended to run there is the community open-source .NET MCP server <a href="https://github.com/gjlumsden/oura-mcp">gjlumsden/oura-mcp</a>. MCP means Model Context Protocol, a way for an assistant to call tools on a server. This repository publishes these explanatory pages only. It does not include that server, OAuth code, API credentials, or a connection to Oura.</p>
-    <p>The intended connection is the owner's own Oura account through Oura's official OAuth. The design uses that official OAuth path directly, with no other health platform added between the owner and Oura.</p>
-
-    <h2>Intended data path</h2>
-    <p>The steps below describe the design the owner would still have to turn on. They do not describe activity this website performs.</p>
+    <h2>How data would move</h2>
+    <p>The intended path, once the connector is activated, is:</p>
     <ol class="steps">
-      <li>The owner approves access on Oura's site through Oura's official OAuth.</li>
-      <li>The MCP server on the shared hosted computer receives access tokens and requests the owner's Oura data in the scopes the owner approved. The exact scopes are unconfirmed.</li>
-      <li>HealthBot calls the server's tools. Oura information returned to HealthBot becomes part of the assistant's conversation. That information may be sent through HealthBot to the AI service providers that process the conversation. Which providers those are is unconfirmed.</li>
+      <li>Oura sends authorized data to the connector on the owner's own server. That server is separate from the shared Grok cloud computer.</li>
+      <li>The shared Grok cloud computer calls the connector through SSH.</li>
+      <li>Grok Bot / HealthBot uses the result to answer the owner's request. The request, the read result, or the analysis may enter chat.</li>
     </ol>
+    <p>This is not processing that stays on the owner's machine. When a read happens, the health payload transits over SSH to Grok Bot / HealthBot and may enter chat. SSH is a channel between those machines. It is not a limit on what the receiving service stores or does. Encryption at rest is not assured. These pages do not promise zero retention, and they do not promise that data are kept out of training. Oura's terms and Grok Bot's terms apply on their own. These pages do not replace either set of terms.</p>
+    <p>Access tokens and refresh tokens are intended to stay on the owner's server so the connection can continue. They are not intended to be passed to the shared Grok cloud computer as ordinary call credentials. That computer is intended to call the connector over restricted SSH standard input and output. The restricted production configuration has not been accepted. Security isolation is being implemented separately. It is pending and has not been verified.</p>
+    <p>During an authorization attempt, a browser on the Grok cloud computer would use 127.0.0.1:8742, through a temporary SSH local forward, to reach the callback on the owner's server. The recorded note is that a basic test of that forward passed. That result is not a completed OAuth authorization. Real OAuth has not been performed and has not been checked.</p>
+    <p>The deployment design keeps the connector's service port off the public internet. That design is not a description of the current firewall, and it is not a statement that the server is safe.</p>
 
-    <h2>What remains unconfirmed</h2>
-    <dl class="facts">
-      <div>
-        <dt>Exact OAuth scopes</dt>
-        <dd>Unconfirmed. This draft does not name the scopes that would be requested. Categories Oura can offer, such as sleep, activity, readiness, or heart rate, are examples of available data types, and they are not a chosen scope list.</dd>
-      </div>
-      <div>
-        <dt>Data and model providers</dt>
-        <dd>Unconfirmed. The names of the AI service providers, and the terms that would apply to information sent to them, are not settled here.</dd>
-      </div>
-      <div>
-        <dt>Other recipients</dt>
-        <dd>Unconfirmed. The intended path already includes a possible send through HealthBot to its AI service providers. Any recipient beyond that path is unconfirmed.</dd>
-      </div>
-      <div>
-        <dt>Token and data storage</dt>
-        <dd>Unconfirmed. Whether the server would store tokens or Oura data on the hosted computer, and where, is unconfirmed.</dd>
-      </div>
-      <div>
-        <dt>Retention and deletion</dt>
-        <dd>Unconfirmed. How long tokens, Oura data, or conversation logs would be kept, and how deletion would work, is unconfirmed.</dd>
-      </div>
-      <div>
-        <dt>Operator contact</dt>
-        <dd>Unconfirmed. No contact method is stated, because none has been confirmed.</dd>
-      </div>
-    </dl>
-    <p>This draft sets no rule against sharing, selling, or advertising, and it describes no control that would prevent them.</p>
+    <h2>Authorization and stopping</h2>
+    <p>Before any activation, the owner would still have to confirm registration materials, the platform terms that apply, the actual OAuth grant, and the production configuration. Reading these pages, or adopting them, is not that confirmation and is not OAuth. In the work that produced this documentation, no application was registered, no real credentials were supplied, OAuth was not performed, and no live API read was made. An unrelated development application may already exist on the account. These pages do not claim that the account has no application.</p>
+    <p>The owner can stop sending requests. An operator can run the connector's local logout or another local cleanup. Local logout deletes the connector's local token and clears the connector's cache. It does not revoke authorization at Oura, and it does not delete Oura source records, existing chat, system records, or backups. Revocation at Oura has to be done in the authorization management Oura provides. These pages do not name an interface path that has not been verified. Deleting chat or other platform content has to be done with that platform's own functions. Local logout is not remote revocation and is not platform deletion.</p>
+    <p>There is no confirmed one-step deletion that reaches every place data may remain. Cleanup of residual files, system records, or backups has to be done by an operator who has found where those copies actually are.</p>
 
-    <h2>Privacy draft and terms draft</h2>
-    <p>Two companion drafts use the same date and the same limits. Read the <a href="privacy/">privacy draft</a> and the <a href="terms/">terms draft</a>. The owner has not adopted either page.</p>
+    <h2>Protection, stated at the current boundary</h2>
+    <p>The <a href="privacy/">privacy page</a> states the storage and deletion boundaries in full. In short:</p>
+    <ul class="plain-list">
+      <li>Tokens are intended to be stored on the owner's server. They are not memory-only. Encryption at rest is not assured.</li>
+      <li>Root access or the same user id can reach files that account can read. No retention period or backup cycle is promised.</li>
+      <li>Token and key directories have been observed with access that is not private to the owning user. Other accounts on the machine may be able to enter those directories. A key file has been observed with access limited to its owner, and the home directory has been observed as private to its owner. That file mode does not make the directory private.</li>
+      <li>The operating account can administer the server, and the release location is writable by that account. Those observations are metadata. Key-ring contents were not inspected. Security isolation is pending and has not been verified.</li>
+    </ul>
+
+    <h2>Current status and contact</h2>
+    <p>This documentation version is 2026-11-08. The owner has adopted it. The connector is not activated. Deployment of this version is a separate step. Until a deployment is verified, an older public copy is not this version.</p>
+    <p>Public contact: ev.hobo@gmail.com. Do not send an access token, a refresh token, an authorization code, an SSH private key, or an unnecessary health record.</p>
+
+    <h2>Privacy and terms</h2>
+    <p>Read the <a href="privacy/">privacy page</a> for the data path, storage, and deletion boundaries, and the <a href="terms/">terms page</a> for the use boundaries. Both use documentation version 2026-11-08. The owner has adopted them. Neither page activates the connector.</p>
   </main>
   <footer class="wrap">
     <nav aria-label="Footer">
       <ul class="nav-list">
         <li><a href="./" aria-current="page">Overview</a></li>
-        <li><a href="privacy/">Privacy draft</a></li>
-        <li><a href="terms/">Terms draft</a></li>
+        <li><a href="privacy/">Privacy</a></li>
+        <li><a href="terms/">Terms</a></li>
       </ul>
     </nav>
-    <p>Drafted <time datetime="2026-11-08">8 November 2026</time> (2026-11-08). Drafting date only. The owner has not adopted this text.</p>
-    <p>HealthBot Personal Oura Integration is not affiliated with or endorsed by Oura Health Oy.</p>
+    <p>Documentation version <time datetime="2026-11-08">8 November 2026</time> (2026-11-08). The owner has adopted this documentation. The connector is not activated and is not enabled. OAuth has not been performed.</p>
+    <p>HealthBot Personal Health Connector is not affiliated with or endorsed by Oura Health Oy. These pages are not a compliance warranty.</p>
   </footer>
 </body>
 </html>
